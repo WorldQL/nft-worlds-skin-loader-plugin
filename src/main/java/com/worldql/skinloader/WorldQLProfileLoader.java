@@ -5,22 +5,38 @@ import customskinloader.config.SkinSiteProfile;
 import customskinloader.loader.ProfileLoader;
 import customskinloader.profile.ModelManager0;
 import customskinloader.profile.UserProfile;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 import java.util.UUID;
 
 public class WorldQLProfileLoader implements ProfileLoader.IProfileLoader {
     @Override
     public UserProfile loadProfile(SkinSiteProfile skinSiteProfile, GameProfile gameProfile) throws Exception {
-        UUID userId = gameProfile.getId();
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            UUID userId = gameProfile.getId();
+            String root = skinSiteProfile.root == null ? "https://skins.nftworlds.com" : skinSiteProfile.root;
 
-        // TODO: Do some HTTP request to get an IPFS URL from userId,
-        //       but for now let's just say:
-        String fetchedSkinImageURL = "https://routing.nftworlds.com/ipfs/Qma8T5tX6XTizbpPiHuXkw8yo9vCf7SHWAr3kwKozn5wEK";
+            WorldQLSkinAPI.Response fetchedSkins = WorldQLSkinAPI.getSkinsForUser(client, root, userId);
 
-        UserProfile profile = new UserProfile();
-        profile.put(ModelManager0.Model.SKIN_DEFAULT, fetchedSkinImageURL);
+            UserProfile profile = new UserProfile();
+            switch (fetchedSkins.skinType) {
+                case "slim":
+                    profile.put(ModelManager0.Model.SKIN_SLIM, fetchedSkins.skinUrl);
+                    break;
+                case "default":
+                default:
+                    profile.put(ModelManager0.Model.SKIN_DEFAULT, fetchedSkins.skinUrl);
+            }
 
-        return profile;
+            if (fetchedSkins.capeUrl != null)
+                profile.put(ModelManager0.Model.CAPE, fetchedSkins.capeUrl);
+
+            if (fetchedSkins.elytraUrl != null)
+                profile.put(ModelManager0.Model.ELYTRA, fetchedSkins.elytraUrl);
+
+            return profile;
+        }
     }
 
     @Override
@@ -30,7 +46,7 @@ public class WorldQLProfileLoader implements ProfileLoader.IProfileLoader {
 
     @Override
     public String getName() {
-        return "WorldQL";
+        return "WorldQLAPI";
     }
 
     @Override

@@ -6,7 +6,7 @@ import customskinloader.plugin.ICustomSkinLoaderPlugin;
 public class WorldQLDefaultProfile implements ICustomSkinLoaderPlugin.IDefaultProfile {
     @Override
     public String getName() {
-        return "WorldQL";
+        return "NFT Worlds";
     }
 
     @Override
@@ -16,6 +16,7 @@ public class WorldQLDefaultProfile implements ICustomSkinLoaderPlugin.IDefaultPr
 
     @Override
     public void updateSkinSiteProfile(SkinSiteProfile skinSiteProfile) {
-        skinSiteProfile.type = "WorldQL";
+        skinSiteProfile.type = "WorldQLAPI";
+        skinSiteProfile.root = "https://skins.nftworlds.com";
     }
 }

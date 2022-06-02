@@ -9,8 +9,9 @@ My `loadlist` in `CustomSkinLoader.json` looks like this:
 ```json
 [
   {
-    "name": "WorldQL",
-    "type": "WorldQL"
+    "name": "NFT Worlds",
+    "type": "WorldQLAPI",
+    "root": "http://127.0.0.1:3000"
   },
   {
     "name": "Mojang",

@@ -2,6 +2,7 @@ package com.worldql.skinloader;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -32,7 +33,11 @@ public class WorldQLSkinAPI {
 
     public static Response getSkinsForUser(HttpClient client, String apiRoot, UUID playerId) throws IOException {
         HttpGet request = new HttpGet(apiRoot + "/skins/" + playerId);
-        String response = client.execute(request, new BasicResponseHandler());
-        return GSON.fromJson(response, Response.class);
+        HttpResponse response = client.execute(request);
+        if (response.getStatusLine().getStatusCode() != 200)
+            return null;
+
+        String body = new BasicResponseHandler().handleResponse(response);
+        return GSON.fromJson(body, Response.class);
     }
 }

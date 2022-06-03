@@ -18,6 +18,9 @@ public class WorldQLProfileLoader implements ProfileLoader.IProfileLoader {
             String root = skinSiteProfile.root == null ? "https://skins.nftworlds.com" : skinSiteProfile.root;
 
             WorldQLSkinAPI.Response fetchedSkins = WorldQLSkinAPI.getSkinsForUser(client, root, userId);
+            if (fetchedSkins == null) {
+                return null;
+            }
 
             UserProfile profile = new UserProfile();
             switch (fetchedSkins.skinType) {

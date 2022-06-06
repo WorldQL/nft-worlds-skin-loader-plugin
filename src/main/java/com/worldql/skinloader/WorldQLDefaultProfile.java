@@ -17,6 +17,8 @@ public class WorldQLDefaultProfile implements ICustomSkinLoaderPlugin.IDefaultPr
     @Override
     public void updateSkinSiteProfile(SkinSiteProfile skinSiteProfile) {
         skinSiteProfile.type = "WorldQLAPI";
-        skinSiteProfile.root = "https://skins.nftworlds.com";
+
+        if (skinSiteProfile.root == null)
+            skinSiteProfile.root = "https://skins.nftworlds.com";
     }
 }

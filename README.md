@@ -1,6 +1,6 @@
-# wql-skin-loader-plugin
+# nft-worlds-skin-loader-plugin
 
-WorldQL plugin for the MCCustomSkinLoader mod
+NFT Worlds plugin for the MCCustomSkinLoader mod
 
 ## Configuration
 

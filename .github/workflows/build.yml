@@ -13,16 +13,16 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
       - name: Build with Gradle
-        uses: gradle/gradle-build-action
+        uses: gradle/gradle-build-action@v2.1.7
         with:
           arguments: build
       - name: Resolve .jar name
         id: prep
-      run: |
-        JAR_PATH=`echo build/libs/skin-loader-plugin*.jar`
-        JAR_NAME=`basename ${JAR_PATH}`
-        echo ::set-output name=jar_path::${JAR_PATH}
-        echo ::set-output name=jar_name::${JAR_NAME}
+        run: |
+          JAR_PATH=`echo build/libs/skin-loader-plugin*.jar`
+          JAR_NAME=`basename ${JAR_PATH}`
+          echo ::set-output name=jar_path::${JAR_PATH}
+          echo ::set-output name=jar_name::${JAR_NAME}
       - name: Upload JAR
         uses: actions/upload-artifact@v3
         with:
